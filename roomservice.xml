@@ -1,5 +1,0 @@
-<manifest>
-  <project name="TheMuppets/proprietary_vendor_sony" path="vendor/sony" remote="github" revision="cm-13.0" />
-  <project name="LineageOS/android_device_sony_t3" path="device/sony/t3" remote="github" revision="cm-13.0" />
-  <project name="LineageOS/android_kernel_sony_msm8974" path="kernel/sony/msm8928" remote="github" revision="cm-13.0" />
-</manifest>
