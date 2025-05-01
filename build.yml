@@ -1,0 +1,38 @@
+name: Build LineageOS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y repo git-core bc build-essential zip curl
+
+    - name: Init repo
+      run: |
+        mkdir lineage
+        cd lineage
+        repo init -u https://github.com/LineageOS/android.git -b cm-13.0 --depth=1
+        mkdir -p .repo/local_manifests
+        cp ../local_manifests/roomservice.xml .repo/local_manifests/
+        repo sync -j4
+
+    - name: Start build
+      run: |
+        cd lineage
+        source build/envsetup.sh
+        breakfast t3
+        mka bacon
+
+    - name: Upload ROM
+      uses: actions/upload-artifact@v3
+      with:
+        name: LineageOS-ROM
+        path: lineage/out/target/product/t3/*.zip
